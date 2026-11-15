@@ -49,6 +49,8 @@
   }
   h1 { font-size: 34px; line-height: 1.15; margin: 0 0 18px; }
   .gif { width: 100%; border-radius: 14px; display: block; margin: 0 0 20px; background: var(--card); }
+  video.media { width: 100%; border-radius: 14px; display: block; margin: 0 0 20px; background: #000; }
+  audio.media { width: 100%; display: block; margin: 0 0 20px; }
   .tekst p { margin: 0 0 14px; }
 
   details {
@@ -85,7 +87,7 @@
 <script src="inhoud.js"></script>
 <script>
 (function () {
-  const naam = (typeof BRUIDEGOM !== "undefined") ? BRUIDEGOM : "jij";
+  const naam = (typeof HEIDIGOM !== "undefined") ? HEIDIGOM : "Heidigom";
   const codes = (typeof CODES !== "undefined") ? CODES : {};
   const acts = (typeof ACTIVITEITEN !== "undefined") ? ACTIVITEITEN : [];
   const lok = (typeof LOKPAGINAS !== "undefined") ? LOKPAGINAS : {};
@@ -98,7 +100,19 @@
 
   // --- hulpfuncties ---
   const metNaam = t => String(t || "").replace(/\{naam\}/g, naam);
+  function media(bron) {
+    const lijst = Array.isArray(bron) ? bron : (bron ? [bron] : []);
+    return lijst.map(src => {
+      const ext = String(src).split("?")[0].split(".").pop().toLowerCase();
+      if (["mp3", "m4a", "wav", "ogg", "aac"].includes(ext))
+        return `<audio class="media" controls preload="metadata" src="${src}"></audio>`;
+      if (["mp4", "webm", "mov", "m4v"].includes(ext))
+        return `<video class="media" controls playsinline preload="metadata" src="${src}"></video>`;
+      return `<img class="gif" src="${src}" alt="" onerror="this.remove()">`;
+    }).join("");
+  }
   function alineas(tekst) {
+    if (!String(tekst || "").trim()) return "";
     return metNaam(tekst).trim().split(/\n\s*\n/)
       .map(p => "<p>" + p.trim().replace(/\n/g, "<br>") + "</p>").join("");
   }
@@ -114,8 +128,8 @@
   }
   function voet(aantal) {
     if (aantal === null) return "";
-    return `<div class="voet">${naam}, je hebt al ${aantal} van de ${totaal} QR-codes gescand. ` +
-           (aantal < totaal ? `Nog ${totaal - aantal} te gaan. 😈` : `Allemaal. Respect. 🎉`) + `</div>`;
+    return `<div class="voet">${naam}, je hebt al ${aantal} van de OVER 9000! QR-codes gescand. ` +
+           `Nog ${9001 - aantal} te gaan. 😈</div>`;
   }
 
   // --- pagina opbouwen ---
@@ -132,8 +146,8 @@
       const beeld = p.beeld || p.gif;
       document.title = deel ? `${act.titel} - ${deel.titel}` : act.titel;
       let html = `<div class="teller">${label}</div><h1>${metNaam(deel ? deel.titel : act.titel)}</h1>`;
-      if (beeld) html += `<img class="gif" src="${beeld}" alt="" onerror="this.remove()">`;
-      html += `<div class="tekst">${alineas(p.tekst)}</div>`;
+      html += media(beeld);
+      if (alineas(p.tekst)) html += `<div class="tekst">${alineas(p.tekst)}</div>`;
       (p.extra || []).forEach(e => {
         html += `<details><summary>${metNaam(e.titel)}</summary><div class="binnen">${alineas(e.tekst)}</div></details>`;
       });

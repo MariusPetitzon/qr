@@ -12,7 +12,7 @@
 //
 // =====================================================================
 
-const BRUIDEGOM = "Bruidegom";   // naam van het slachtoffer
+const HEIDIGOM = "Heidigom";   // naam van het slachtoffer
 
 
 // ---------------------------------------------------------------------
@@ -33,12 +33,12 @@ Elke vraag zit achter een eigen QR-code. Succes, {naam}.`,
       { titel: "Wat als je verliest?", tekst: `Een shotje. Of twee.` },
     ],
     // Onderdelen: elk krijgt een EIGEN QR-code (aantal staat in tools/aantallen.json).
-    // "beeld" = afbeelding of GIF in de map beelden/ of gifs/.
+    // "beeld" = pad in media/: afbeelding, GIF, audio (.mp3/.m4a) of video (.mp4), of een lijst: ["a.jpg", "b.mp3"].
     onderdelen: [
       {
         titel: "Vraag 1",
-        beeld: "beelden/quiz-1.jpg",
-        tekst: `Wie zijn deze twee?`,
+        beeld: "media/Quizz/quiz-1.jpg",
+        tekst: ``,
         extra: [],
       },
     ],
@@ -60,7 +60,7 @@ Elke vraag zit achter een eigen QR-code. Succes, {naam}.`,
 // ---------------------------------------------------------------------
 //  Bij elke scan wordt willekeurig één van de varianten getoond.
 //  Je mag varianten toevoegen of schrappen. {naam} wordt vervangen
-//  door de naam van de bruidegom.
+//  door de naam (Heidigom).
 //
 //  De soort "eindeloos" toont een laadbalk die nooit klaar is.
 
