@@ -1,0 +1,15 @@
+{
+  "_uitleg": "Hoeveel QR-codes van elke soort. Verhogen mag altijd (er komen nieuwe codes bij, bestaande blijven). Verlagen verwijdert geen codes.",
+  "activiteiten": 10,
+  "_onderdelen": "Aantal onderdelen (elk met een eigen QR-code) per activiteitsnummer, bv. quizvragen.",
+  "onderdelen": {
+    "1": 1
+  },
+  "lok": {
+    "fout": 40,
+    "volgende": 30,
+    "spot": 30,
+    "eindeloos": 20,
+    "verlopen": 14
+  }
+}
