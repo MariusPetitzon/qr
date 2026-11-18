@@ -152,6 +152,8 @@ def main():
 
     schrijf_js(CODES_JS, "CODES", codes)
     schrijf_js(MEDIA_JS, "MEDIA", items)
+    nieuwe = [k for k, v in codes.items() if v.startswith("media:") and k not in oud]
+    (ROOT / "tools" / "laatste_nieuw.json").write_text(json.dumps(nieuwe), encoding="utf-8")
 
     print(f"{len(items)} mediabestanden ({nieuw} nieuw), "
           f"{sum(1 for v in codes.values() if not v.startswith('media:'))} lokcodes.")

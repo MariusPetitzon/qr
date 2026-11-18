@@ -199,6 +199,16 @@ def main():
                  ", ".join(f"{s} {n}" for s, n in Counter(s for s, _, _, _ in lok).items()))
     c.save()
 
+    # --- PDF 1b: alleen de nieuwe media-codes van de laatste maak_codes.py ---
+    nieuw_pad = ROOT / "tools" / "laatste_nieuw.json"
+    nieuw = set(json.loads(nieuw_pad.read_text(encoding="utf-8"))) if nieuw_pad.exists() else set()
+    nieuwe_kaarten = [(img, label) for _, code, img, label in media_kaarten if code in nieuw]
+    if nieuwe_kaarten:
+        c = canvas.Canvas(str(ROOT / "output" / "kaarten_nieuw.pdf"), pagesize=A4)
+        raster(c, nieuwe_kaarten)
+        c.save()
+        print(f"{len(nieuwe_kaarten)} nieuwe kaarten apart in kaarten_nieuw.pdf")
+
     # --- PDF 2: lokcodes ---
     c = canvas.Canvas(str(ROOT / "output" / "kaarten_lokcodes.pdf"), pagesize=A4)
     raster(c, [(img, label) for _, _, img, label in lok])

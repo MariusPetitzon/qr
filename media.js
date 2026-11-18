@@ -242,6 +242,38 @@ const MEDIA = {
     "naam": "mix2recipes",
     "label": "Koken - mix2recipes"
   },
+  "Misc/MTB.jpg": {
+    "soort": "beeld",
+    "src": "media/Misc/MTB.jpg",
+    "map": "Misc",
+    "groep": "",
+    "naam": "MTB",
+    "label": "Misc - MTB"
+  },
+  "Misc/Spacecake.jpg": {
+    "soort": "beeld",
+    "src": "media/Misc/Spacecake.jpg",
+    "map": "Misc",
+    "groep": "",
+    "naam": "Spacecake",
+    "label": "Misc - Spacecake"
+  },
+  "Misc/Tiramisu false.jpg": {
+    "soort": "beeld",
+    "src": "media/Misc/Tiramisu false.jpg",
+    "map": "Misc",
+    "groep": "",
+    "naam": "Tiramisu false",
+    "label": "Misc - Tiramisu false"
+  },
+  "Misc/Tiramisu true.jpg": {
+    "soort": "beeld",
+    "src": "media/Misc/Tiramisu true.jpg",
+    "map": "Misc",
+    "groep": "",
+    "naam": "Tiramisu true",
+    "label": "Misc - Tiramisu true"
+  },
   "paintball/Activity_PB.jpg": {
     "soort": "beeld",
     "src": "media/paintball/Activity_PB.jpg",
@@ -249,5 +281,37 @@ const MEDIA = {
     "groep": "",
     "naam": "Activity_PB",
     "label": "paintball - Activity_PB"
+  },
+  "paintball/PB-Fake1.jpg": {
+    "soort": "beeld",
+    "src": "media/paintball/PB-Fake1.jpg",
+    "map": "paintball",
+    "groep": "",
+    "naam": "PB-Fake1",
+    "label": "paintball - PB-Fake1"
+  },
+  "paintball/PB-Fake2.jpg": {
+    "soort": "beeld",
+    "src": "media/paintball/PB-Fake2.jpg",
+    "map": "paintball",
+    "groep": "",
+    "naam": "PB-Fake2",
+    "label": "paintball - PB-Fake2"
+  },
+  "paintball/PB-Fake3.jpg": {
+    "soort": "beeld",
+    "src": "media/paintball/PB-Fake3.jpg",
+    "map": "paintball",
+    "groep": "",
+    "naam": "PB-Fake3",
+    "label": "paintball - PB-Fake3"
+  },
+  "paintball/PB-Fake4.jpg": {
+    "soort": "beeld",
+    "src": "media/paintball/PB-Fake4.jpg",
+    "map": "paintball",
+    "groep": "",
+    "naam": "PB-Fake4",
+    "label": "paintball - PB-Fake4"
   }
 };
