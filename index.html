@@ -51,6 +51,10 @@
   .gif { width: 100%; border-radius: 14px; display: block; margin: 0 0 20px; background: var(--card); }
   video.media { width: 100%; border-radius: 14px; display: block; margin: 0 0 20px; background: #000; }
   audio.media { width: 100%; display: block; margin: 0 0 20px; }
+  .yt { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 0 0 14px; border-radius: 14px; overflow: hidden; background: #000; }
+  .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .knop { display: inline-block; margin: 0 0 20px; padding: 12px 18px; border-radius: 12px; background: var(--accent);
+          color: var(--bg); font-weight: 700; text-decoration: none; }
   .tekst p { margin: 0 0 14px; }
 
   details {
@@ -84,12 +88,13 @@
 <main id="inhoud"></main>
 
 <script src="codes.js"></script>
+<script src="media.js"></script>
 <script src="inhoud.js"></script>
 <script>
 (function () {
   const naam = (typeof HEIDIGOM !== "undefined") ? HEIDIGOM : "Heidigom";
   const codes = (typeof CODES !== "undefined") ? CODES : {};
-  const acts = (typeof ACTIVITEITEN !== "undefined") ? ACTIVITEITEN : [];
+  const mediaLijst = (typeof MEDIA !== "undefined") ? MEDIA : {};
   const lok = (typeof LOKPAGINAS !== "undefined") ? LOKPAGINAS : {};
   const inhoud = document.getElementById("inhoud");
   const totaal = Object.keys(codes).length;
@@ -110,6 +115,27 @@
         return `<video class="media" controls playsinline preload="metadata" src="${src}"></video>`;
       return `<img class="gif" src="${src}" alt="" onerror="this.remove()">`;
     }).join("");
+  }
+  const pad = src => encodeURI(src);
+  function toon(m) {
+    const knop = (href, tekst) => `<a class="knop" href="${href}" target="_blank" rel="noopener">${tekst}</a>`;
+    switch (m.soort) {
+      case "beeld":
+        return `<img class="gif" src="${pad(m.src)}" alt="">`;
+      case "audio":
+        return `<audio class="media" controls preload="metadata" src="${pad(m.src)}"></audio>`;
+      case "video":
+        return `<video class="media" controls playsinline preload="metadata" src="${pad(m.src)}"></video>`;
+      case "youtube":
+        return `<div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${m.id}?playsinline=1&rel=0"
+                  title="video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>` +
+               knop(m.link, "Bekijk op YouTube");
+      case "giphy":
+        return `<img class="gif" src="${m.src}" alt=""
+                  onerror="this.outerHTML='<a class=&quot;knop&quot; href=&quot;${m.link}&quot; target=&quot;_blank&quot;>Bekijk de GIF</a>'">`;
+      default:
+        return knop(m.link, "Openen");
+    }
   }
   function alineas(tekst) {
     if (!String(tekst || "").trim()) return "";
@@ -134,26 +160,17 @@
 
   // --- pagina opbouwen ---
   let eindeloos = false;
-  if (doel.startsWith("activiteit:")) {
-    // "activiteit:3" = activiteit 3;  "activiteit:3.2" = onderdeel 2 van activiteit 3
-    const [n, m] = doel.split(":")[1].split(".").map(x => parseInt(x, 10));
-    const act = acts.find(a => a.nummer === n);
-    const deel = (act && m) ? (act.onderdelen || [])[m - 1] : null;
+  if (doel.startsWith("media:")) {
+    const m = mediaLijst[doel.slice(6)];
     const aantal = gescandTellen(code);
-    if (act && (!m || deel)) {
-      const p = deel || act;
-      const label = deel ? `${metNaam(act.titel)} · ${metNaam(deel.titel)}` : `Activiteit ${act.nummer}`;
-      const beeld = p.beeld || p.gif;
-      document.title = deel ? `${act.titel} - ${deel.titel}` : act.titel;
-      let html = `<div class="teller">${label}</div><h1>${metNaam(deel ? deel.titel : act.titel)}</h1>`;
-      html += media(beeld);
-      if (alineas(p.tekst)) html += `<div class="tekst">${alineas(p.tekst)}</div>`;
-      (p.extra || []).forEach(e => {
-        html += `<details><summary>${metNaam(e.titel)}</summary><div class="binnen">${alineas(e.tekst)}</div></details>`;
-      });
+    if (m) {
+      document.title = m.map || "QR-code";
+      let html = m.map ? `<div class="teller">${m.map}</div>` : "";
+      html += `<div>${toon(m)}</div>`;
+      if (alineas(m.tekst)) html += `<div class="tekst">${alineas(m.tekst)}</div>`;
       inhoud.innerHTML = html + voet(aantal);
     } else {
-      inhoud.innerHTML = `<div class="groot">🛠️</div><h1 class="midden">Activiteit nog niet ingevuld</h1>`;
+      inhoud.innerHTML = `<div class="groot">🛠️</div><h1 class="midden">Deze inhoud is verdwenen</h1>`;
     }
   } else if (doel && lok[doel]) {
     const aantal = gescandTellen(code);
